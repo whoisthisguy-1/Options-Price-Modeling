@@ -11,6 +11,7 @@ yfinance = "*"
 numpy = "*"
 scipy = "*"
 openpyxl = "*"
+pyarrow = "*"
 
 [dev-packages]
 isort = "*"

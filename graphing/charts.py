@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
     plt.figure(figsize=figsize)
     plt.xlabel(xlab)
@@ -9,14 +10,14 @@ def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
     plt.show()
     plt.savefig(filename, dpi=150, bbox_inches="tight")
 
-def plotlinegraph(title, filename,xlab, ylab,):
+
+def plotlinegraph(title, filename, xlab, ylab, p_px):
     plotbody(title, filename, (12, 15), xlab="time", ylab="Dollars")
     plt.plot(p_px["dt"], p_px["close"])
 
 
-def plothistogram(title, filename, xlab, ylab ):
+def plothistogram(title, filename, xlab, ylab):
     plt.hist(p_px["ret"].dropna(), bins=35)
-
 
 
 plt.figure(figsize=(12, 5))
@@ -29,7 +30,7 @@ plt.savefig("charts/01_closing_price.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Histogram
+# Histogram
 plt.figure(figsize=(10, 5))
 plt.hist(p_px["ret"].dropna(), bins=35)
 plt.title("AXSM Daily Log Returns")
@@ -40,7 +41,7 @@ plt.savefig("charts/02_returns_histogram.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Market vs Model for Calls
+# Market vs Model for Calls
 calls = p_opt[p_opt["type"] == "call"].sort_values("k")
 plt.figure(figsize=(10, 5))
 plt.plot(calls["k"], calls["mid"], marker="o", label="market mid")
@@ -54,7 +55,7 @@ plt.savefig("charts/03_calls_market_vs_model.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Implied Volatility by strike price
+# Implied Volatility by strike price
 plt.figure(figsize=(10, 5))
 
 for typ in p_opt["type"].unique():
@@ -70,7 +71,7 @@ plt.savefig("charts/04_implied_vol_by_strike.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Risk Label Chart
+# Risk Label Chart
 risk_pd = p_opt.groupby(["type", "risk"]).size().reset_index(name="n")
 labels = risk_pd["type"] + " - " + risk_pd["risk"]
 plt.figure(figsize=(10, 5))
@@ -84,7 +85,7 @@ plt.savefig("charts/05_risk_labels.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Break Even Distance Vs ITM
+# Break Even Distance Vs ITM
 plt.figure(figsize=(10, 5))
 plt.scatter(p_opt["be_dist"], p_opt["itm_prob"])
 plt.title("Break-even Distance vs ITM Probability")
@@ -98,16 +99,15 @@ plt.show()
 
 
 # %%
-#Options Volume Chart
+# Options Volume Chart
 plt.figure(figsize=(12, 5))
 plt.plot(p_vol["dt"], p_vol["tot_vol"], label="daily vol")
 plt.plot(p_vol["dt"], p_vol["ma20"], label="20 day avg")
 plt.scatter(
     p_vol[p_vol["weird_vol"] == 1]["dt"],
     p_vol[p_vol["weird_vol"] == 1]["tot_vol"],
-    label="weird vol"
+    label="weird vol",
 )
-
 
 
 plt.title("AXSM Options Volume")
@@ -119,7 +119,7 @@ plt.savefig("charts/07_options_volume.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Throughput check
+# Throughput check
 a = time.time()
 n = po.count()
 b = time.time()
@@ -132,7 +132,7 @@ print("seconds:", sec)
 print("rows/sec:", tp)
 
 # %%
-#Scaling test
+# Scaling test
 mults = [1, 10, 50, 100]
 runs = []
 for m in mults:
@@ -145,20 +145,17 @@ for m in mults:
     runs.append((m, n, sec, rows_sec))
 
 # %%
-#Benchmark Table
-bench = pd.DataFrame(
-    runs,
-    columns=["mult", "rows", "secs", "rows_per_sec"]
-)
+# Benchmark Table
+bench = pd.DataFrame(runs, columns=["mult", "rows", "secs", "rows_per_sec"])
 bench
 
 # %%
-#Runtime Regression
+# Runtime Regression
 x = bench["rows"].values.astype(float)
 y = bench["secs"].values.astype(float)
 
 # %%
-#Runtime R^2
+# Runtime R^2
 coef = np.polyfit(x, y, 1)
 pred = coef[0] * x + coef[1]
 ss_res = ((y - pred) ** 2).sum()
@@ -170,7 +167,7 @@ print("runtime slope:", coef[0])
 print("runtime R2:", r2)
 
 # %%
-#Runtime Chart
+# Runtime Chart
 plt.figure(figsize=(8, 5))
 plt.scatter(bench["rows"], bench["secs"])
 plt.plot(bench["rows"], pred)
@@ -182,5 +179,4 @@ plt.savefig("charts/08_runtime_scaling.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
-#Saving outputs
-
+# Saving outputs
