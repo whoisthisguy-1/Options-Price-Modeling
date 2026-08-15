@@ -34,7 +34,7 @@ print("Spark version:", spark.version)
 
 # %%
 #Stock Price Data for a year timeframe
-px = pd.read_excel("AXSM 1year Pricing.xlsx")
+px = pd.read_excel("inputs/AXSM_1Year_pricing.xlsx")
 px.head()
 
 # %%
@@ -120,7 +120,7 @@ rv.select("dt", "close", "ret", "vol20", "vol60").show(10)
 
 # %%
 #The Options matrix
-raw = pd.read_excel("AXSM Recent SpotPricing.xlsx", header=None)
+raw = pd.read_excel("inputs/AXSM_Recent_Spot_Pricing.xlsx", header=None)
 raw.head(10)
 
 # %%
@@ -593,7 +593,7 @@ sql_px.show()
 # %%
 #Options volume csv data clean
 vdf = spark.read.csv(
-    "daily_volume_AXSM_2025-06-23_2026-06-23.csv",
+    "inputs/daily_volume_AXSM_2025-06-23_2026-06-23.csv",
     header=True,
     inferSchema=True
 )
@@ -837,11 +837,11 @@ plt.show()
 
 # %%
 #Saving outputs
-po.toPandas().to_csv("axsm_contract_risk_scores.csv", index=False)
+po.toPandas().to_csv("outputs/axsm_contract_risk_scores.csv", index=False)
 print("saved axsm_contract_risk_scores.csv")
-po.toPandas().to_csv("axsm_contract_risk_scores.csv", index=False)
+po.toPandas().to_csv("outputs/axsm_contract_risk_scores.csv", index=False)
 print("saved axsm_contract_risk_scores.csv")
-bench.to_csv("axsm_scaling_bench.csv", index=False)
+bench.to_csv("outputs/axsm_scaling_bench.csv", index=False)
 print("saved axsm_scaling_bench.csv")
 
 
