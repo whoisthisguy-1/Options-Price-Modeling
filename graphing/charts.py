@@ -12,14 +12,15 @@ def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
 
 
 def plotlinegraph(title, filename, xlab, ylab, p_px):
-    plotbody(title, filename, (12, 15), xlab="time", ylab="Dollars")
+    plotbody(title, filename, (12, 15), xlab=xlab, ylab=ylab)
     plt.plot(p_px["dt"], p_px["close"])
 
 
-def plothistogram(title, filename, xlab, ylab):
+def plothistogram(title, filename, xlab, ylab, p_px):
+    plotbody(title, filename, (10, 5), xlab=xlab, ylab=ylab)
     plt.hist(p_px["ret"].dropna(), bins=35)
 
-
+'''
 plt.figure(figsize=(12, 5))
 plt.plot(p_px["dt"], p_px["close"])
 plt.title("AXSM Closing Price")
@@ -180,3 +181,5 @@ plt.show()
 
 # %%
 # Saving outputs
+
+'''
