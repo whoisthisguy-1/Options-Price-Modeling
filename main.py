@@ -645,7 +645,6 @@ po2.select(
 # %%
 # Pandas conversion of price
 p_px = rv.select("dt", "close", "ret", "vol20", "vol60").toPandas()
-
 # %%
 # Pandas conversion of option
 p_opt = po.select(
@@ -670,18 +669,20 @@ p_vol = dvol.select("dt", "tot_vol", "ma20", "weird_vol").toPandas()
 # %%
 # Closing Price Chart
 os.makedirs("charts", exist_ok=True)
-charts.plotlinegraph("AXSM Closing Price", "charts/02_closing_price.png", "Date", "Close", p_px)
+charts.plotlinegraph(
+    "AXSM Closing Price", "charts/02_closing_price.png", "Date", "Close", p_px
+)
 # %%
 # Histogram
-charts.plothistogram("AXSM Daily Log Returns", "charts/02_returns_histogram.png", "Log Return", "Count", p_px)
-#plt.figure(figsize=(10, 5))
-#plt.hist(p_px["ret"].dropna(), bins=35)
-#plt.title("AXSM Daily Log Returns")
-#plt.xlabel("Log Return")
-#plt.ylabel("Count")
-#plt.grid(True)
-#plt.savefig("charts/02_returns_histogram.png", dpi=150, bbox_inches="tight")
-#plt.show()
+charts.plothistogram("AXSM Daily Log Returns","charts/02_returns_histogram.png","Log Return","Count",p_px,35)
+# plt.figure(figsize=(10, 5))
+# plt.hist(p_px["ret"].dropna(), bins=35)
+# plt.title("AXSM Daily Log Returns")
+# plt.xlabel("Log Return")
+# plt.ylabel("Count")
+# plt.grid(True)
+# plt.savefig("charts/02_returns_histogram.png", dpi=150, bbox_inches="tight")
+# plt.show()
 
 # %%
 # Market vs Model for Calls

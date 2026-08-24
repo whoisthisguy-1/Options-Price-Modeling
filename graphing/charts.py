@@ -8,19 +8,21 @@ def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
     plt.grid(True)
     plt.title(title)
     plt.show()
-    plt.savefig(filename, dpi=150, bbox_inches="tight")
 
 
 def plotlinegraph(title, filename, xlab, ylab, p_px):
     plotbody(title, filename, (12, 15), xlab=xlab, ylab=ylab)
     plt.plot(p_px["dt"], p_px["close"])
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
 
 
-def plothistogram(title, filename, xlab, ylab, p_px):
+def plothistogram(title, filename, xlab, ylab, p_px, bins):
     plotbody(title, filename, (10, 5), xlab=xlab, ylab=ylab)
-    plt.hist(p_px["ret"].dropna(), bins=35)
+    plt.hist(p_px["ret"].dropna(), bins=bins)
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
 
-'''
+
+"""
 plt.figure(figsize=(12, 5))
 plt.plot(p_px["dt"], p_px["close"])
 plt.title("AXSM Closing Price")
@@ -182,4 +184,4 @@ plt.show()
 # %%
 # Saving outputs
 
-'''
+"""
