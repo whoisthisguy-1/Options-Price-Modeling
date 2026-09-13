@@ -1,6 +1,3 @@
-# %%
-
-# %%
 import math
 import os
 import re
@@ -675,17 +672,9 @@ charts.plotlinegraph(
 # %%
 # Histogram
 charts.plothistogram("AXSM Daily Log Returns","charts/02_returns_histogram.png","Log Return","Count",p_px,35)
-# plt.figure(figsize=(10, 5))
-# plt.hist(p_px["ret"].dropna(), bins=35)
-# plt.title("AXSM Daily Log Returns")
-# plt.xlabel("Log Return")
-# plt.ylabel("Count")
-# plt.grid(True)
-# plt.savefig("charts/02_returns_histogram.png", dpi=150, bbox_inches="tight")
-# plt.show()
 
-# %%
-# Market vs Model for Calls
+"""
+## Market vs Model for Calls
 calls = p_opt[p_opt["type"] == "call"].sort_values("k")
 plt.figure(figsize=(10, 5))
 plt.plot(calls["k"], calls["mid"], marker="o", label="market mid")
@@ -697,6 +686,14 @@ plt.legend()
 plt.grid(True)
 plt.savefig("charts/03_calls_market_vs_model.png", dpi=150, bbox_inches="tight")
 plt.show()
+"""
+calls = p_opt[p_opt["type"] == "call"].sort_values("k")
+
+datalist=[
+        {"xvals":calls["k"], "yvals":calls["mid"], "marker":"o", "label":"market mid"},
+        {"xvals":calls["k"], "yvals":calls["bs"], "marker":"o", "label":"BS Value"},
+]
+charts.plotmultiline("AXSM Calls: Market vs Model","charts/03_calls_market_vs_model.png","Strike", "Option Value",datalist)
 
 # %%
 # Implied Volatility by strike price

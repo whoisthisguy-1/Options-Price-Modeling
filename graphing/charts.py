@@ -22,29 +22,20 @@ def plothistogram(title, filename, xlab, ylab, p_px, bins):
     plt.savefig(filename, dpi=150, bbox_inches="tight")
 
 
+def plotmultiline(title, filename, xlab, ylab, datalist):
+    plotbody(title, filename, (12,15), xlab=xlab, ylab=ylab)
+    for dataset in datalist:
+        plt.plot(dataset["xvals"], dataset["yvals"], marker=dataset["marker"], label=dataset["label"])
+    plt.legend()
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
+# %%
+# Market vs Model for Call
 """
-plt.figure(figsize=(12, 5))
-plt.plot(p_px["dt"], p_px["close"])
-plt.title("AXSM Closing Price")
-plt.xlabel("Date")
-plt.ylabel("Close")
-plt.grid(True)
-plt.savefig("charts/01_closing_price.png", dpi=150, bbox_inches="tight")
-plt.show()
+datalist=[
+    {"xvals":calls["k"], "yvals":calls["mid"], "marker":"o", "label":"market mid"},
 
-# %%
-# Histogram
-plt.figure(figsize=(10, 5))
-plt.hist(p_px["ret"].dropna(), bins=35)
-plt.title("AXSM Daily Log Returns")
-plt.xlabel("Log Return")
-plt.ylabel("Count")
-plt.grid(True)
-plt.savefig("charts/02_returns_histogram.png", dpi=150, bbox_inches="tight")
-plt.show()
-
-# %%
-# Market vs Model for Calls
+    {"xvals":calls["k"], "yvals":calls["bs"], "marker":"o", "label":"BS Value"},
+]
 calls = p_opt[p_opt["type"] == "call"].sort_values("k")
 plt.figure(figsize=(10, 5))
 plt.plot(calls["k"], calls["mid"], marker="o", label="market mid")
@@ -55,8 +46,7 @@ plt.ylabel("Option Value")
 plt.legend()
 plt.grid(True)
 plt.savefig("charts/03_calls_market_vs_model.png", dpi=150, bbox_inches="tight")
-plt.show()
-
+plt.show()"
 # %%
 # Implied Volatility by strike price
 plt.figure(figsize=(10, 5))
