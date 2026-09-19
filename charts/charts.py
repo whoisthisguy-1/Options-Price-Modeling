@@ -15,6 +15,11 @@ def plotlinegraph(title, filename, xlab, ylab, p_px):
     plt.plot(p_px["dt"], p_px["close"])
     plt.savefig(filename, dpi=150, bbox_inches="tight")
 
+def plotbargraph(title, filename, xlab, ylab, data, labels):
+    plotbody(title, filename, (10,5), xlab=xlab, ylab=ylab)
+    plt.xticks(rotation=45)
+    plt.bar(labels, data)
+    plt.savefig(filename, dpi=150, bbox_inches= "tight")
 
 def plothistogram(title, filename, xlab, ylab, p_px, bins):
     plotbody(title, filename, (10, 5), xlab=xlab, ylab=ylab)
@@ -28,42 +33,7 @@ def plotmultiline(title, filename, xlab, ylab, datalist):
         plt.plot(dataset["xvals"], dataset["yvals"], marker=dataset["marker"], label=dataset["label"])
     plt.legend()
     plt.savefig(filename, dpi=150, bbox_inches="tight")
-# %%
-# Market vs Model for Call
 """
-datalist=[
-    {"xvals":calls["k"], "yvals":calls["mid"], "marker":"o", "label":"market mid"},
-
-    {"xvals":calls["k"], "yvals":calls["bs"], "marker":"o", "label":"BS Value"},
-]
-calls = p_opt[p_opt["type"] == "call"].sort_values("k")
-plt.figure(figsize=(10, 5))
-plt.plot(calls["k"], calls["mid"], marker="o", label="market mid")
-plt.plot(calls["k"], calls["bs"], marker="o", label="BS value")
-plt.title("AXSM Calls: Market vs Model")
-plt.xlabel("Strike")
-plt.ylabel("Option Value")
-plt.legend()
-plt.grid(True)
-plt.savefig("charts/03_calls_market_vs_model.png", dpi=150, bbox_inches="tight")
-plt.show()"
-# %%
-# Implied Volatility by strike price
-plt.figure(figsize=(10, 5))
-
-for typ in p_opt["type"].unique():
-    tmp = p_opt[p_opt["type"] == typ]
-    plt.scatter(tmp["k"], tmp["iv"], label=typ)
-plt.axhline(ann_vol, linestyle="--", label="hist vol")
-plt.title("Implied Volatility by Strike")
-plt.xlabel("Strike")
-plt.ylabel("Volatility")
-plt.legend()
-plt.grid(True)
-plt.savefig("charts/04_implied_vol_by_strike.png", dpi=150, bbox_inches="tight")
-plt.show()
-
-# %%
 # Risk Label Chart
 risk_pd = p_opt.groupby(["type", "risk"]).size().reset_index(name="n")
 labels = risk_pd["type"] + " - " + risk_pd["risk"]

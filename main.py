@@ -22,7 +22,7 @@ from pyspark.sql.functions import to_date, udf, when
 from pyspark.sql.types import DoubleType
 from pyspark.sql.window import Window
 
-import graphing.charts as charts
+import charts.charts as charts
 
 # %%
 
@@ -665,13 +665,13 @@ p_vol = dvol.select("dt", "tot_vol", "ma20", "weird_vol").toPandas()
 
 # %%
 # Closing Price Chart
-os.makedirs("charts", exist_ok=True)
+os.makedirs("graphs", exist_ok=True)
 charts.plotlinegraph(
-    "AXSM Closing Price", "charts/02_closing_price.png", "Date", "Close", p_px
+    "AXSM Closing Price", "graphs/02_closing_price.png", "Date", "Close", p_px
 )
 # %%
 # Histogram
-charts.plothistogram("AXSM Daily Log Returns","charts/02_returns_histogram.png","Log Return","Count",p_px,35)
+charts.plothistogram("AXSM Daily Log Returns","graphs/02_returns_histogram.png","Log Return","Count",p_px,35)
 
 """
 ## Market vs Model for Calls
@@ -708,13 +708,16 @@ plt.xlabel("Strike")
 plt.ylabel("Volatility")
 plt.legend()
 plt.grid(True)
-plt.savefig("charts/04_implied_vol_by_strike.png", dpi=150, bbox_inches="tight")
+plt.savefig("graphs/04_implied_vol_by_strike.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
 # Risk Label Chart
 risk_pd = p_opt.groupby(["type", "risk"]).size().reset_index(name="n")
 labels = risk_pd["type"] + " - " + risk_pd["risk"]
+charts.plotbargraph("Risk Labels by Option Type", "05_risk_labels.png", "Type and Risk", "Contracts", risk_pd["n"], labels)
+
+"""
 plt.figure(figsize=(10, 5))
 plt.bar(labels, risk_pd["n"])
 plt.title("Risk Labels by Option Type")
@@ -722,9 +725,9 @@ plt.xlabel("Type and Risk")
 plt.ylabel("Contracts")
 plt.xticks(rotation=45)
 plt.grid(True)
-plt.savefig("charts/05_risk_labels.png", dpi=150, bbox_inches="tight")
+plt.savefig("graphs/05_risk_labels.png", dpi=150, bbox_inches="tight")
 plt.show()
-
+"""
 # %%
 # Break Even Distance Vs ITM
 plt.figure(figsize=(10, 5))
@@ -733,7 +736,7 @@ plt.title("Break-even Distance vs ITM Probability")
 plt.xlabel("Break-even Distance")
 plt.ylabel("ITM Probability")
 plt.grid(True)
-plt.savefig("charts/06_breakeven_vs_itm.png", dpi=150, bbox_inches="tight")
+plt.savefig("graphs/06_breakeven_vs_itm.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
@@ -756,7 +759,7 @@ plt.xlabel("Date")
 plt.ylabel("Contracts")
 plt.legend()
 plt.grid(True)
-plt.savefig("charts/07_options_volume.png", dpi=150, bbox_inches="tight")
+plt.savefig("graphs/07_options_volume.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
@@ -816,7 +819,7 @@ plt.title("Runtime Scaling")
 plt.xlabel("Rows")
 plt.ylabel("Seconds")
 plt.grid(True)
-plt.savefig("charts/08_runtime_scaling.png", dpi=150, bbox_inches="tight")
+plt.savefig("graphs/08_runtime_scaling.png", dpi=150, bbox_inches="tight")
 plt.show()
 
 # %%
