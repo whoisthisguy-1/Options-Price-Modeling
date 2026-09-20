@@ -9,6 +9,11 @@ def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
     plt.title(title)
     plt.show()
 
+def plotscatterplot(title, filename, xlab, ylab, data):
+    plotbody(title, filename,(10,5),xlab=xlab, ylab=ylab)
+    plt.scatter(data["x"], data["y"])
+    
+    plt.savefig("charts/06_breakeven_vs_itm.png", dpi=150, bbox_inches="tight")
 
 def plotlinegraph(title, filename, xlab, ylab, p_px):
     plotbody(title, filename, (12, 15), xlab=xlab, ylab=ylab)

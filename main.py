@@ -673,20 +673,6 @@ charts.plotlinegraph(
 # Histogram
 charts.plothistogram("AXSM Daily Log Returns","graphs/02_returns_histogram.png","Log Return","Count",p_px,35)
 
-"""
-## Market vs Model for Calls
-calls = p_opt[p_opt["type"] == "call"].sort_values("k")
-plt.figure(figsize=(10, 5))
-plt.plot(calls["k"], calls["mid"], marker="o", label="market mid")
-plt.plot(calls["k"], calls["bs"], marker="o", label="BS value")
-plt.title("AXSM Calls: Market vs Model")
-plt.xlabel("Strike")
-plt.ylabel("Option Value")
-plt.legend()
-plt.grid(True)
-plt.savefig("charts/03_calls_market_vs_model.png", dpi=150, bbox_inches="tight")
-plt.show()
-"""
 calls = p_opt[p_opt["type"] == "call"].sort_values("k")
 
 datalist=[
@@ -694,6 +680,8 @@ datalist=[
         {"xvals":calls["k"], "yvals":calls["bs"], "marker":"o", "label":"BS Value"},
 ]
 charts.plotmultiline("AXSM Calls: Market vs Model","charts/03_calls_market_vs_model.png","Strike", "Option Value",datalist)
+
+
 
 # %%
 # Implied Volatility by strike price
@@ -711,22 +699,18 @@ plt.grid(True)
 plt.savefig("graphs/04_implied_vol_by_strike.png", dpi=150, bbox_inches="tight")
 plt.show()
 
+
+
 # %%
 # Risk Label Chart
 risk_pd = p_opt.groupby(["type", "risk"]).size().reset_index(name="n")
 labels = risk_pd["type"] + " - " + risk_pd["risk"]
-charts.plotbargraph("Risk Labels by Option Type", "05_risk_labels.png", "Type and Risk", "Contracts", risk_pd["n"], labels)
+charts.plotbargraph("Risk Labels by Option Type", "graphs/05_risk_labels.png", "Type and Risk", "Contracts", risk_pd["n"], labels)
 
-"""
-plt.figure(figsize=(10, 5))
-plt.bar(labels, risk_pd["n"])
-plt.title("Risk Labels by Option Type")
-plt.xlabel("Type and Risk")
-plt.ylabel("Contracts")
-plt.xticks(rotation=45)
-plt.grid(True)
-plt.savefig("graphs/05_risk_labels.png", dpi=150, bbox_inches="tight")
-plt.show()
+
+d={"x":p_opt["be_dist"],"y": p_opt["itm_prob"]}
+charts.plotscatterplot("Break-even Distance vs ITM Probability","graphs/06_breakeven_vs_itm.png", "Break-even Distance", "ITM Probability", d)
+
 """
 # %%
 # Break Even Distance Vs ITM
@@ -738,7 +722,7 @@ plt.ylabel("ITM Probability")
 plt.grid(True)
 plt.savefig("graphs/06_breakeven_vs_itm.png", dpi=150, bbox_inches="tight")
 plt.show()
-
+"""
 # %%
 
 
