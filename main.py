@@ -667,7 +667,7 @@ p_vol = dvol.select("dt", "tot_vol", "ma20", "weird_vol").toPandas()
 # Closing Price Chart
 os.makedirs("graphs", exist_ok=True)
 charts.plotlinegraph(
-    "AXSM Closing Price", "graphs/02_closing_price.png", "Date", "Close", p_px
+    "AXSM Closing Price", "graphs/01_closing_price.png", "Date", "Close", p_px
 )
 # %%
 # Histogram
@@ -676,10 +676,10 @@ charts.plothistogram("AXSM Daily Log Returns","graphs/02_returns_histogram.png",
 calls = p_opt[p_opt["type"] == "call"].sort_values("k")
 
 datalist=[
-        {"xvals":calls["k"], "yvals":calls["mid"], "marker":"o", "label":"market mid"},
-        {"xvals":calls["k"], "yvals":calls["bs"], "marker":"o", "label":"BS Value"},
+        {"x":calls["k"], "y":calls["mid"], "marker":"o", "label":"Market Mid"},
+        {"x":calls["k"], "y":calls["bs"], "marker":"o", "label":"BS Value"},
 ]
-charts.plotmultiline("AXSM Calls: Market vs Model","charts/03_calls_market_vs_model.png","Strike", "Option Value",datalist)
+charts.plotmultiline("AXSM Calls: Market vs Model","charts/03_calls_market_vs_model.png","Strike", "Option Value", (12,15), datalist)
 
 
 
@@ -725,8 +725,9 @@ plt.show()
 """
 # %%
 
-
+"""
 # %%
+#Correct style graph
 # Options Volume Chart
 plt.figure(figsize=(12, 5))
 plt.plot(p_vol["dt"], p_vol["tot_vol"], label="daily vol")
@@ -745,6 +746,19 @@ plt.legend()
 plt.grid(True)
 plt.savefig("graphs/07_options_volume.png", dpi=150, bbox_inches="tight")
 plt.show()
+
+"""
+#only scatterplot
+charts.plotscatterplot("AXSM Options Volume", "graphs/17_options_volume.png", "Date", "Contracts", {"x":p_vol[p_vol["weird_vol"] == 1]["dt"], "y":p_vol[p_vol["weird_vol"] == 1]["tot_vol"]})
+
+#Need to change dimensions to 12,5 on charts.py
+#pick up all volatility and puts a scatterplot over the 20 day moving average 
+datalist=[
+        {"x":p_vol["dt"],"y": p_vol["tot_vol"], "label":"daily vol", "marker":"o"},
+        {"x":p_vol["dt"],"y": p_vol["ma20"], "label":"20 day avg",  "marker":""},
+]
+charts.plotmultiline("AXSM Options Volume", "graphs/37_options_volume.png", "Date", "Contracts", (12,5), datalist)
+
 
 # %%
 # Throughput check

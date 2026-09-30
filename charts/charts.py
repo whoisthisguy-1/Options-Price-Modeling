@@ -12,8 +12,7 @@ def plotbody(title, filename, figsize, xlab="time", ylab="Dollars"):
 def plotscatterplot(title, filename, xlab, ylab, data):
     plotbody(title, filename,(10,5),xlab=xlab, ylab=ylab)
     plt.scatter(data["x"], data["y"])
-    
-    plt.savefig("charts/06_breakeven_vs_itm.png", dpi=150, bbox_inches="tight")
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
 
 def plotlinegraph(title, filename, xlab, ylab, p_px):
     plotbody(title, filename, (12, 15), xlab=xlab, ylab=ylab)
@@ -32,10 +31,10 @@ def plothistogram(title, filename, xlab, ylab, p_px, bins):
     plt.savefig(filename, dpi=150, bbox_inches="tight")
 
 
-def plotmultiline(title, filename, xlab, ylab, datalist):
-    plotbody(title, filename, (12,15), xlab=xlab, ylab=ylab)
-    for dataset in datalist:
-        plt.plot(dataset["xvals"], dataset["yvals"], marker=dataset["marker"], label=dataset["label"])
+def plotmultiline(title, filename, xlab, ylab, size, data):
+    plotbody(title, filename, size, xlab=xlab, ylab=ylab)
+    for dataset in data:
+        plt.plot(dataset["x"], dataset["y"], marker=dataset["marker"], label=dataset["label"])
     plt.legend()
     plt.savefig(filename, dpi=150, bbox_inches="tight")
 """
